@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 🔗 Novo backend publicado (Sheets)
   const url =
     "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
 
@@ -10,16 +9,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("lista-produtos");
     container.innerHTML = "";
 
-    // Ignora o cabeçalho (começa da linha 2)
     for (let i = 1; i < linhas.length; i++) {
-      const linha = linhas[i];
-      const partes = linha.split(",");
+      const partes = linhas[i].split(",");
 
-      // Garante que há 4 colunas
       if (partes.length >= 4) {
-        const [nome, descricao, preco, imagem] = partes.map(x => x.trim());
+        let [nome, descricao, preco, imagem] = partes.map(x => x.trim());
 
-        // Só cria produto se houver dados reais
+        // 🪄 Converte link do Google Drive automaticamente
+        if (imagem.includes("drive.google.com/file/d/")) {
+          const id = imagem.split("/d/")[1]?.split("/")[0];
+          imagem = `https://drive.google.com/uc?export=view&id=${id}`;
+        }
+
         if (nome && descricao && preco && imagem) {
           const produto = document.createElement("div");
           produto.className = "produto";
