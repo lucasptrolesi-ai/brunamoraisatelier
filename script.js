@@ -1,11 +1,11 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  // 🔗 Link público da planilha publicada como CSV
-  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR0V8f4lpv2pefKoPOdk3TEe4-X1QZE0OoMF45mgTaFTHo94uCkq2wPd3mje66pfmWm8Zsod8UQxkH-/pub?output=csv";
+  // 🔗 Novo backend (Google Sheets publicado)
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
 
   try {
     const resposta = await fetch(url);
     const texto = await resposta.text();
-    const linhas = texto.split("\n").slice(1); // Pula cabeçalho
+    const linhas = texto.split("\n").slice(1); // pula cabeçalho
     const container = document.getElementById("lista-produtos");
     container.innerHTML = "";
 
