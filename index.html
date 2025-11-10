@@ -25,7 +25,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(80%);
+      filter: brightness(90%);
     }
 
     .banner-overlay {
@@ -34,31 +34,15 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(0, 0, 0, 0.1);
     }
 
     .banner-conteudo {
       position: absolute;
-      top: 50%;
+      bottom: 80px;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       text-align: center;
-      color: #fff;
-      padding: 20px;
-    }
-
-    .banner-conteudo h1 {
-      font-size: 3.5rem;
-      margin: 10px 0;
-      color: #f5deb3;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-    }
-
-    .banner-conteudo p {
-      font-size: 1.4rem;
-      margin-bottom: 30px;
-      color: #fff5e1;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .botao-whatsapp {
@@ -70,6 +54,7 @@
       font-weight: 600;
       font-size: 1.2rem;
       transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
 
     .botao-whatsapp:hover {
@@ -81,6 +66,7 @@
     .catalogo {
       padding: 80px 10%;
       text-align: center;
+      background-color: #fffaf3;
     }
 
     .catalogo h2 {
@@ -155,9 +141,7 @@
     <img src="imagens/banner.jpg" alt="Banner Bruna Morais Ateliê" class="banner-img">
     <div class="banner-overlay"></div>
     <div class="banner-conteudo">
-      <h1>Bruna Morais Peixoto Ateliê</h1>
-      <p>Joias com elegância e sofisticação</p>
-      <a href="https://wa.me/5535984595425" target="_blank" class="botao-whatsapp">Fale conosco</a>
+      <a href="https://wa.me/5535984595425" target="_blank" class="botao-whatsapp">Fale conosco no WhatsApp</a>
     </div>
   </section>
 
@@ -166,24 +150,24 @@
     <h2>Catálogo de Joias</h2>
     <div class="produtos">
       <div class="produto">
-        <img src="produtos/exemplo1.jpg" alt="Colar Dourado">
-        <h3>Colar Dourado</h3>
-        <p>Design clássico e elegante.</p>
-        <div class="preco">R$ 189,90</div>
+        <img src="produtos/exemplo1.jpg" alt="Anel Luxo Rosé">
+        <h3>Anel Luxo Rosé</h3>
+        <p>Design elegante em banho de ouro rosé.</p>
+        <div class="preco">R$ 289,00</div>
       </div>
 
       <div class="produto">
-        <img src="produtos/exemplo2.jpg" alt="Brinco Pérola">
-        <h3>Brinco Pérola</h3>
-        <p>Toque de sofisticação para todas as ocasiões.</p>
-        <div class="preco">R$ 149,90</div>
+        <img src="produtos/exemplo2.jpg" alt="Brinco Elegância">
+        <h3>Brinco Elegância</h3>
+        <p>Brinco folheado com zircônias brancas.</p>
+        <div class="preco">R$ 199,00</div>
       </div>
 
       <div class="produto">
-        <img src="produtos/exemplo3.jpg" alt="Pulseira Luxo">
-        <h3>Pulseira Luxo</h3>
-        <p>Feita à mão com acabamento impecável.</p>
-        <div class="preco">R$ 229,90</div>
+        <img src="produtos/exemplo3.jpg" alt="Colar Brilho Dourado">
+        <h3>Colar Brilho Dourado</h3>
+        <p>Peça sofisticada, perfeita para eventos especiais.</p>
+        <div class="preco">R$ 259,00</div>
       </div>
     </div>
   </section>
