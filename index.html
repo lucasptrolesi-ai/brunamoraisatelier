@@ -11,33 +11,87 @@
       font-family: 'Cormorant Garamond', serif;
       background-color: #fdf9f3;
       color: #3b2f2f;
-      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    /* === ANIMAÇÕES === */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
     }
 
     /* === BANNER PRINCIPAL === */
     .banner {
+      position: relative;
       width: 100%;
       height: 100vh;
-      background: url('imagens/banner.jpg') center/cover no-repeat;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
+      overflow: hidden;
     }
 
-    .banner::after {
-      content: "";
+    .banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(85%);
+    }
+
+    .banner-texto {
       position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(1px);
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6px);
+      padding: 25px 40px;
+      border-radius: 15px;
+      text-align: center;
+      color: #3b2f2f;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      animation: fadeInUp 1.6s ease-out;
+    }
+
+    .banner-texto h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #d4af37;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      animation: fadeInUp 1.2s ease-out;
+    }
+
+    .banner-texto p {
+      font-size: 1.3rem;
+      color: #3b2f2f;
+      margin: 0;
+      animation: fadeInUp 1.6s ease-out;
+    }
+
+    .btn-catalogo {
+      margin-top: 25px;
+      display: inline-block;
+      background-color: #d4af37;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: 0.3s;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .btn-catalogo:hover {
+      background-color: #b8962b;
+      transform: scale(1.05);
     }
 
     /* === CATÁLOGO === */
     .catalogo {
       padding: 80px 10%;
       text-align: center;
-      background-color: #fffaf3;
     }
 
     .catalogo h2 {
@@ -48,21 +102,21 @@
 
     .produtos {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 30px;
     }
 
     .produto {
       background-color: #fff;
       border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-      transition: 0.3s;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       overflow: hidden;
+      transition: 0.3s;
     }
 
     .produto:hover {
       transform: translateY(-8px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .produto img {
@@ -80,14 +134,55 @@
     .produto p {
       color: #7c6b55;
       font-size: 1rem;
-      margin: 5px 20px 10px;
+      margin-bottom: 10px;
     }
 
     .preco {
       font-weight: bold;
       color: #b08d29;
-      margin-bottom: 20px;
-      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    /* === BOTÃO WHATSAPP FIXO === */
+    .whatsapp-container {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+      text-align: center;
+    }
+
+    .whatsapp-msg {
+      background-color: #fdf5da;
+      color: #7a5d15;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      animation: fadeInUp 1.8s ease;
+    }
+
+    .whatsapp-btn {
+      background-color: #d4af37;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-decoration: none;
+      transition: 0.3s ease-in-out;
+      animation: fadeIn 2s ease-in;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #b8962b;
+      transform: scale(1.1);
     }
 
     /* === RODAPÉ === */
@@ -109,10 +204,17 @@
 
 <body>
   <!-- === BANNER PRINCIPAL === -->
-  <section class="banner"></section>
+  <section class="banner">
+    <img src="imagens/banner.jpg" alt="Banner Bruna Morais Ateliê" class="banner-img">
+    <div class="banner-texto">
+      <h1>Bruna Morais Peixoto Ateliê</h1>
+      <p>Joias com elegância e sofisticação</p>
+      <a href="#catalogo" class="btn-catalogo">Ver Catálogo ↓</a>
+    </div>
+  </section>
 
   <!-- === CATÁLOGO === -->
-  <section class="catalogo">
+  <section class="catalogo" id="catalogo">
     <h2>Catálogo de Joias</h2>
     <div class="produtos">
       <div class="produto">
@@ -138,9 +240,19 @@
     </div>
   </section>
 
+  <!-- === BOTÃO WHATSAPP FIXO === -->
+  <div class="whatsapp-container">
+    <div class="whatsapp-msg">💛 Fale comigo</div>
+    <a href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê." 
+       target="_blank" class="whatsapp-btn" title="Fale conosco pelo WhatsApp">
+      💬
+    </a>
+  </div>
+
   <!-- === RODAPÉ === -->
   <footer>
-    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
+    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por 
+    <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 </body>
 </html>
