@@ -1,173 +1,255 @@
+import streamlit as st
+import pandas as pd
 import os
-import io
-import time
 import base64
 import requests
-import pandas as pd
-import streamlit as st
-from dotenv import load_dotenv
 
-# ====== CONFIGURAÇÕES INICIAIS ======
-st.set_page_config(page_title="Painel Administrativo - Bruna Morais Peixoto Atelier", page_icon="💍", layout="wide")
+# ================== CONFIGURAÇÃO ==================
+st.set_page_config(
+    page_title="Painel Administrativo - Bruna Morais Peixoto Atelier",
+    page_icon="💎",
+    layout="wide"
+)
 
-# ====== ESTILO PERSONALIZADO ======
+# ================== FUNÇÃO AUXILIAR ==================
+def get_base64_of_image(img_path):
+    with open(img_path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+# ================== ESTILO VISUAL ==================
 st.markdown("""
 <style>
 html, body, [class*="css"] {
     font-family: 'Cormorant Garamond', serif !important;
-    background: #fdf9f3;
-    color: #4b3832;
+    background-color: #fdf9f3 !important;
+    color: #2b2b2b !important;
 }
+
 h1, h2, h3 {
-    color: #d4af37;
-    font-weight: 600;
+    color: #4b4b4b !important;
+    text-align: center !important;
+}
+
+input[type="text"], input[type="number"], textarea, .stTextInput>div>div>input {
+    background-color: #ffffff !important;
+    color: #2b2b2b !important;
+    border-radius: 8px !important;
+    border: 1px solid #c5b8a5 !important;
+    font-size: 1rem !important;
+    padding: 8px 12px !important;
+}
+
+section[data-testid="stFileUploader"] div div div div {
+    background-color: #ffffff !important;
+    color: #2b2b2b !important;
+    border: 1px solid #c5b8a5 !important;
+    border-radius: 8px !important;
+}
+
+.stButton>button {
+    background-color: #d4af37 !important;
+    color: white !important;
+    font-weight: 600 !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: 10px 22px !important;
+    transition: 0.25s ease-in-out !important;
+    font-size: 1.05rem !important;
+}
+.stButton>button:hover {
+    background-color: #b8962b !important;
+    transform: scale(1.05);
+}
+
+div[data-testid="stAlert"] {
+    border-radius: 10px !important;
+}
+
+a {
+    color: #b8962b !important;
+    text-decoration: none !important;
+}
+a:hover {
+    text-decoration: underline !important;
+}
+
+/* Cards de produto */
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid #d4af37;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     text-align: center;
 }
-div.stButton > button {
-    background: #d4af37;
-    color: white;
-    border-radius: 24px;
-    padding: 10px 18px;
-    font-weight: 600;
+.product-card img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
-div.stButton > button:hover {
-    background: #b8962b;
-    transform: scale(1.02);
+
+/* Rodapé */
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 20px;
+    font-size: 0.9rem;
+    color: #4b4b4b;
+    border-top: 1px solid #d4af37;
 }
-.stTextInput input, .stTextArea textarea {
-    background: #fffaf0;
-    border: 1px solid #ccbfa1;
-    border-radius: 10px;
-}
-@media (max-width: 768px) {
-    h1 { font-size: 1.6rem; }
-    h2 { font-size: 1.2rem; }
-    div.stButton > button { width: 100%; }
+.footer img {
+    width: 80px;
+    margin-top: 10px;
+    opacity: 0.85;
 }
 </style>
 """, unsafe_allow_html=True)
 
-st.markdown("<h1>💎 Painel Administrativo<br>Bruna Morais Peixoto Atelier</h1>", unsafe_allow_html=True)
-st.divider()
+# ================== LOGO ==================
+logo_path = os.path.join("backend", "data", "banner.jpg")
 
-# ====== VARIÁVEIS DO PROJETO ======
-REPO_OWNER = "lucasptrolesi-ai"
-REPO_NAME = "brunamoraisatelier"
-BRANCH = "main"
+if os.path.exists(logo_path):
+    logo_base64 = get_base64_of_image(logo_path)
+    st.markdown(
+        f"""
+        <div style="text-align: center; margin-top: -30px;">
+            <img src="data:image/png;base64,{logo_base64}" 
+                 alt="Logo Bruna Morais Peixoto Atelier" 
+                 style="width: 180px; border-radius: 10px;">
+            <h1 style="margin-top: 10px;">Painel Administrativo</h1>
+            <h2>Bruna Morais Peixoto Atelier</h2>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-CSV_PATH = "catalogo.csv"
-IMG_DIR = "imagens"
-RAW_BASE = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}"
+st.markdown("---")
 
-# ====== TOKEN DO GITHUB ======
-load_dotenv()
-default_token = os.getenv("GITHUB_TOKEN", "")
-token = st.text_input("🔑 Token do GitHub (repo access)", type="password", value=default_token)
+# ================== TOKEN DO GITHUB ==================
+if "github_token" not in st.session_state:
+    token_input = st.text_input("🔑 Token do GitHub (repo access)", type="password")
+    if token_input:
+        st.session_state["github_token"] = token_input
+        st.success("✅ Token salvo com segurança.")
+else:
+    st.info("🔒 Token armazenado com segurança (oculto).")
 
-if not token:
-    st.warning("Informe seu token do GitHub acima para publicar no repositório.")
-headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
+# ================== CONFIGURAÇÃO DO GITHUB ==================
+GITHUB_REPO = "lucasptrolesi-ai/brunamoraisatelier"
+CATALOGO_PATH = "backend/data/catalogo.csv"
 
-# ====== FUNÇÕES AUXILIARES ======
-def gh_url(path): 
-    return f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path}"
+# ================== FUNÇÃO PARA ATUALIZAR O GITHUB ==================
+def salvar_no_github(df):
+    """Salva o catálogo no repositório do GitHub."""
+    token = st.session_state.get("github_token")
+    if not token:
+        st.warning("⚠️ Informe o token do GitHub antes de salvar.")
+        return
 
-def get_sha(path):
-    r = requests.get(gh_url(path), headers=headers)
-    return r.json().get("sha") if r.status_code == 200 else None
+    csv_content = df.to_csv(index=False).encode()
+    b64 = base64.b64encode(csv_content).decode()
 
-def upload_to_repo(path, content_bytes, message):
-    sha = get_sha(path)
-    payload = {
-        "message": message,
-        "content": base64.b64encode(content_bytes).decode(),
-        "branch": BRANCH
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{CATALOGO_PATH}"
+    headers = {"Authorization": f"token {token}"}
+    response = requests.get(url, headers=headers)
+    sha = response.json().get("sha") if response.status_code == 200 else None
+
+    data = {
+        "message": "Atualização automática do catálogo",
+        "content": b64,
+        "branch": "main"
     }
     if sha:
-        payload["sha"] = sha
-    r = requests.put(gh_url(path), headers=headers, json=payload)
-    return r.status_code in [200, 201], r.text
+        data["sha"] = sha
 
-def get_csv():
-    r = requests.get(f"{RAW_BASE}/{CSV_PATH}")
-    if r.status_code == 200:
-        return pd.read_csv(io.StringIO(r.text))
-    return pd.DataFrame(columns=["Nome", "Descrição", "Preço", "Imagem"])
+    r = requests.put(url, headers=headers, json=data)
+    if r.status_code in (200, 201):
+        st.success("📤 Catálogo atualizado no GitHub com sucesso!")
+    else:
+        st.error(f"Erro ao salvar no GitHub: {r.text}")
 
-def normalize_drive_link(url):
-    if "drive.google.com/file/d/" in url:
-        file_id = url.split("/d/")[1].split("/")[0]
-        return f"https://drive.google.com/uc?export=view&id={file_id}"
-    return url
+# ================== CATÁLOGO ==================
+st.header("📦 Catálogo Atual")
 
-# ====== CARREGAR CATÁLOGO ======
-df = get_csv()
-st.subheader("📋 Catálogo Atual")
-if df.empty:
-    st.info("Nenhum produto cadastrado.")
+catalog_path = os.path.join("backend", "data", "catalogo.csv")
+if os.path.exists(catalog_path):
+    df = pd.read_csv(catalog_path)
 else:
-    st.dataframe(df, use_container_width=True)
+    df = pd.DataFrame(columns=["Nome", "Descrição", "Preço", "Imagem"])
 
-st.divider()
-st.subheader("➕ Adicionar Novo Produto")
+if len(df) == 0:
+    st.warning("Nenhum produto cadastrado.")
+else:
+    for _, row in df.iterrows():
+        st.markdown(
+            f"""
+            <div class="product-card">
+                <img src="{row['Imagem']}" alt="{row['Nome']}">
+                <h4>{row['Nome']}</h4>
+                <p>{row['Descrição']}</p>
+                <strong>R$ {row['Preço']}</strong>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-# ====== FORMULÁRIO ======
+st.markdown("---")
+
+# ================== ADICIONAR PRODUTO ==================
+st.header("➕ Adicionar Novo Produto")
+
 col1, col2 = st.columns(2)
 with col1:
     nome = st.text_input("Nome da Peça")
     preco = st.text_input("Preço (ex: 199,90)")
 with col2:
-    descricao = st.text_area("Descrição", height=100)
+    descricao = st.text_area("Descrição")
+    imagem_file = st.file_uploader("Imagem do Produto", type=["jpg", "jpeg", "png"])
+    imagem_link = st.text_input("Ou URL da Imagem (Google Drive, etc.)")
 
-st.markdown("**Imagem do Produto** — arraste o arquivo ou cole o link")
-col_up1, col_up2 = st.columns(2)
-with col_up1:
-    img_file = st.file_uploader("Upload de Imagem", type=["jpg", "jpeg", "png"])
-with col_up2:
-    img_url = st.text_input("Ou URL/Link (Google Drive, etc.)")
-
-# ====== SALVAR ======
 if st.button("💾 Salvar Produto"):
-    if not token:
-        st.error("Token do GitHub é obrigatório.")
-    elif not (nome and descricao and preco and (img_file or img_url)):
-        st.warning("Preencha todos os campos e adicione uma imagem.")
+    if not nome or not preco:
+        st.error("Preencha pelo menos o nome e o preço do produto.")
     else:
-        # --- Upload da Imagem ---
-        if img_file:
-            ext = os.path.splitext(img_file.name)[1]
-            filename = f"{int(time.time())}_{nome.replace(' ', '_')}{ext}"
-            path_img = f"{IMG_DIR}/{filename}"
-            ok_img, msg = upload_to_repo(path_img, img_file.getvalue(), f"🖼️ Upload imagem {filename}")
-            if not ok_img:
-                st.error("Erro ao enviar imagem.")
-                st.stop()
-            img_final = f"{RAW_BASE}/{path_img}"
+        if imagem_file:
+            img_bytes = imagem_file.read()
+            img_base64 = base64.b64encode(img_bytes).decode()
+            img_src = f"data:image/png;base64,{img_base64}"
+        elif imagem_link:
+            img_src = imagem_link
         else:
-            img_final = normalize_drive_link(img_url)
+            img_src = ""
 
-        # --- Atualizar CSV ---
-        new_row = pd.DataFrame([[nome, descricao, preco, img_final]], columns=df.columns)
-        df_new = pd.concat([df, new_row], ignore_index=True)
-        ok_csv, msg_csv = upload_to_repo(CSV_PATH, df_new.to_csv(index=False).encode(), f"📦 Novo produto: {nome}")
+        new_row = {"Nome": nome, "Descrição": descricao, "Preço": preco, "Imagem": img_src}
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+        df.to_csv(catalog_path, index=False)
+        salvar_no_github(df)
+        st.success(f"✅ Produto '{nome}' adicionado com sucesso!")
 
-        if ok_csv:
-            st.success("✅ Produto publicado com sucesso!")
-            st.info("Atualize a página (Ctrl + R) para ver o novo produto no catálogo.")
-        else:
-            st.error("Erro ao atualizar catálogo.")
+st.markdown("---")
 
-st.divider()
-st.subheader("❌ Remover Produto")
-
-if df.empty:
-    st.info("Nenhum produto para remover.")
+# ================== REMOVER PRODUTO ==================
+st.header("❌ Remover Produto")
+if len(df) > 0:
+    produto_remover = st.selectbox("Selecione o produto:", df["Nome"])
+    if st.button("Remover Produto"):
+        df = df[df["Nome"] != produto_remover]
+        df.to_csv(catalog_path, index=False)
+        salvar_no_github(df)
+        st.success(f"🗑️ Produto '{produto_remover}' removido.")
 else:
-    alvo = st.selectbox("Selecione o produto para remover", df["Nome"])
-    if st.button("Remover 🗑️"):
-        df2 = df[df["Nome"] != alvo]
-        ok, msg = upload_to_repo(CSV_PATH, df2.to_csv(index=False).encode(), f"🗑️ Remove produto: {alvo}")
-        if ok:
-            st.success(f"Produto '{alvo}' removido com sucesso!")
-        else:
-            st.error("Erro ao remover produto.")
+    st.info("Nenhum produto para remover.")
+
+# ================== RODAPÉ ==================
+if os.path.exists(logo_path):
+    logo_footer = get_base64_of_image(logo_path)
+    st.markdown(
+        f"""
+        <div class="footer">
+            <p>Desenvolvido com 💻 por <strong>Lucas Morais Peixoto</strong></p>
+            <img src="data:image/png;base64,{logo_footer}" alt="Logo Bruna Morais Peixoto Atelier">
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
