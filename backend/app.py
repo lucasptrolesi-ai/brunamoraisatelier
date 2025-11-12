@@ -3,6 +3,7 @@ import pandas as pd
 import os
 import base64
 import requests
+from dotenv import load_dotenv
 
 # ================== CONFIGURAÇÃO ==================
 st.set_page_config(
@@ -11,12 +12,47 @@ st.set_page_config(
     layout="wide"
 )
 
-# ================== FUNÇÃO AUXILIAR ==================
+# ================== CARREGAR TOKEN AUTOMATICAMENTE ==================
+load_dotenv()
+TOKEN_GITHUB = os.getenv("GITHUB_TOKEN")
+
+# ================== FUNÇÕES AUXILIARES ==================
 def get_base64_of_image(img_path):
     with open(img_path, "rb") as f:
         return base64.b64encode(f.read()).decode()
 
-# ================== ESTILO VISUAL ==================
+def salvar_no_github(df):
+    """Salva o catálogo no repositório GitHub"""
+    token = st.session_state.get("github_token")
+    if not token:
+        st.warning("⚠️ Informe ou configure o token do GitHub antes de salvar.")
+        return
+
+    csv_content = df.to_csv(index=False).encode()
+    b64 = base64.b64encode(csv_content).decode()
+    repo = "lucasptrolesi-ai/brunamoraisatelier"
+    path = "backend/data/catalogo.csv"
+
+    url = f"https://api.github.com/repos/{repo}/contents/{path}"
+    headers = {"Authorization": f"token {token}"}
+    response = requests.get(url, headers=headers)
+    sha = response.json().get("sha") if response.status_code == 200 else None
+
+    data = {
+        "message": "Atualização automática do catálogo",
+        "content": b64,
+        "branch": "main"
+    }
+    if sha:
+        data["sha"] = sha
+
+    r = requests.put(url, headers=headers, json=data)
+    if r.status_code in (200, 201):
+        st.success("📤 Catálogo atualizado no GitHub com sucesso!")
+    else:
+        st.error(f"Erro ao salvar no GitHub: {r.text}")
+
+# ================== ESTILO ==================
 st.markdown("""
 <style>
 html, body, [class*="css"] {
@@ -61,19 +97,6 @@ section[data-testid="stFileUploader"] div div div div {
     transform: scale(1.05);
 }
 
-div[data-testid="stAlert"] {
-    border-radius: 10px !important;
-}
-
-a {
-    color: #b8962b !important;
-    text-decoration: none !important;
-}
-a:hover {
-    text-decoration: underline !important;
-}
-
-/* Cards de produto */
 .product-card {
     background-color: #ffffff;
     border: 1px solid #d4af37;
@@ -89,7 +112,6 @@ a:hover {
     margin-bottom: 10px;
 }
 
-/* Rodapé */
 .footer {
     text-align: center;
     margin-top: 60px;
@@ -108,7 +130,6 @@ a:hover {
 
 # ================== LOGO ==================
 logo_path = os.path.join("backend", "data", "banner.jpg")
-
 if os.path.exists(logo_path):
     logo_base64 = get_base64_of_image(logo_path)
     st.markdown(
@@ -126,48 +147,18 @@ if os.path.exists(logo_path):
 
 st.markdown("---")
 
-# ================== TOKEN DO GITHUB ==================
+# ================== TOKEN ==================
 if "github_token" not in st.session_state:
-    token_input = st.text_input("🔑 Token do GitHub (repo access)", type="password")
-    if token_input:
-        st.session_state["github_token"] = token_input
-        st.success("✅ Token salvo com segurança.")
-else:
-    st.info("🔒 Token armazenado com segurança (oculto).")
-
-# ================== CONFIGURAÇÃO DO GITHUB ==================
-GITHUB_REPO = "lucasptrolesi-ai/brunamoraisatelier"
-CATALOGO_PATH = "backend/data/catalogo.csv"
-
-# ================== FUNÇÃO PARA ATUALIZAR O GITHUB ==================
-def salvar_no_github(df):
-    """Salva o catálogo no repositório do GitHub."""
-    token = st.session_state.get("github_token")
-    if not token:
-        st.warning("⚠️ Informe o token do GitHub antes de salvar.")
-        return
-
-    csv_content = df.to_csv(index=False).encode()
-    b64 = base64.b64encode(csv_content).decode()
-
-    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{CATALOGO_PATH}"
-    headers = {"Authorization": f"token {token}"}
-    response = requests.get(url, headers=headers)
-    sha = response.json().get("sha") if response.status_code == 200 else None
-
-    data = {
-        "message": "Atualização automática do catálogo",
-        "content": b64,
-        "branch": "main"
-    }
-    if sha:
-        data["sha"] = sha
-
-    r = requests.put(url, headers=headers, json=data)
-    if r.status_code in (200, 201):
-        st.success("📤 Catálogo atualizado no GitHub com sucesso!")
+    if TOKEN_GITHUB:
+        st.session_state["github_token"] = TOKEN_GITHUB
+        st.info("🔒 Token carregado automaticamente (.env ou Streamlit Secrets)")
     else:
-        st.error(f"Erro ao salvar no GitHub: {r.text}")
+        token_input = st.text_input("🔑 Token do GitHub (repo access)", type="password")
+        if token_input:
+            st.session_state["github_token"] = token_input
+            st.success("✅ Token salvo com segurança.")
+else:
+    st.info("🔒 Token ativo na sessão.")
 
 # ================== CATÁLOGO ==================
 st.header("📦 Catálogo Atual")
