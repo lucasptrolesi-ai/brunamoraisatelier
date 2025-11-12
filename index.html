@@ -1,70 +1,281 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bruna Morais Peixoto Ateliê</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3" />
-</head>
-<body>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Cormorant Garamond', serif;
+      background-color: #fdf9f3;
+      color: #3b2f2f;
+      scroll-behavior: smooth;
+    }
 
-  <!-- HERO / BANNER -->
-  <header class="banner">
-    <img src="imagens/banner.jpg" alt="Bruna Morais Peixoto Ateliê" class="banner-img">
+    /* === ANIMAÇÕES === */
+    @keyframes fadeInUp {
+      0% { opacity: 0; transform: translateY(40px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* === BANNER PRINCIPAL === */
+    .banner {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(85%);
+    }
+
+    .banner-texto {
+      position: absolute;
+      bottom: 90px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(6px);
+      padding: 25px 40px;
+      border-radius: 15px;
+      text-align: center;
+      color: #3b2f2f;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      animation: fadeInUp 1.6s ease-out;
+    }
+
+    .banner-texto h1 {
+      font-size: 2.8rem;
+      margin-bottom: 10px;
+      color: #d4af37;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    .banner-texto p {
+      font-size: 1.3rem;
+      color: #3b2f2f;
+      margin: 0;
+    }
+
+    .btn-catalogo {
+      margin-top: 25px;
+      display: inline-block;
+      background-color: #d4af37;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: 0.3s;
+    }
+
+    .btn-catalogo:hover {
+      background-color: #b8962b;
+      transform: scale(1.05);
+    }
+
+    /* === CATÁLOGO === */
+    .catalogo {
+      padding: 80px 10%;
+      text-align: center;
+    }
+
+    .catalogo h2 {
+      font-size: 2.2rem;
+      color: #8b6f47;
+      margin-bottom: 50px;
+    }
+
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+
+    .produto {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .produto:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    .produto img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .produto h3 {
+      margin: 15px 0 5px;
+      font-size: 1.3rem;
+      color: #4a3c2a;
+    }
+
+    .produto p {
+      color: #7c6b55;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .preco {
+      font-weight: bold;
+      color: #b08d29;
+      margin-bottom: 15px;
+    }
+
+    /* === BOTÃO WHATSAPP FIXO === */
+    .whatsapp-container {
+      position: fixed;
+      bottom: 25px;
+      right: 25px;
+      z-index: 999;
+      text-align: center;
+    }
+
+    .whatsapp-msg {
+      background-color: #fdf5da;
+      color: #7a5d15;
+      padding: 6px 12px;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    .whatsapp-btn {
+      background-color: #d4af37;
+      color: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .whatsapp-btn:hover {
+      background-color: #b8962b;
+      transform: scale(1.1);
+    }
+
+    /* === RODAPÉ === */
+    footer {
+      text-align: center;
+      padding: 30px 10px;
+      background-color: #f8f5ef;
+      color: #7a6a56;
+      font-size: 1rem;
+    }
+
+    footer a {
+      color: #b08d29;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- === BANNER PRINCIPAL === -->
+  <section class="banner">
+    <img src="https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/banner.jpg" alt="Banner Bruna Morais Ateliê" class="banner-img">
     <div class="banner-texto">
       <h1>Bruna Morais Peixoto Ateliê</h1>
       <p>Joias com elegância e sofisticação</p>
       <a href="#catalogo" class="btn-catalogo">Ver Catálogo ↓</a>
     </div>
-  </header>
+  </section>
 
-  <!-- CATÁLOGO -->
-  <main class="catalogo" id="catalogo">
+  <!-- === CATÁLOGO === -->
+  <section class="catalogo" id="catalogo">
     <h2>Catálogo de Joias</h2>
-
-    <!-- filtros opcionais -->
-    <div class="filtros">
-      <input id="busca" type="search" placeholder="Buscar por nome ou descrição…" />
-      <select id="ordem">
-        <option value="">Ordenar</option>
-        <option value="nome-asc">Nome (A–Z)</option>
-        <option value="nome-desc">Nome (Z–A)</option>
-        <option value="preco-asc">Preço (menor → maior)</option>
-        <option value="preco-desc">Preço (maior → menor)</option>
-      </select>
-      <button id="btn-recarregar" class="btn">Recarregar catálogo</button>
-    </div>
-
     <div class="produtos" id="lista-produtos">
-      <p>Carregando produtos…</p>
+      <p>Carregando produtos...</p>
     </div>
+  </section>
 
-    <p class="aviso-csv">
-      * Este catálogo é atualizado automaticamente pela planilha.
-    </p>
-  </main>
-
-  <!-- WHATSAPP FIXO -->
+  <!-- === BOTÃO WHATSAPP FIXO === -->
   <div class="whatsapp-container">
     <div class="whatsapp-msg">💛 Fale comigo</div>
-    <a
-      href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê."
-      target="_blank"
-      class="whatsapp-btn"
-      title="Fale conosco pelo WhatsApp"
-    >💬</a>
+    <a href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê."
+       target="_blank" class="whatsapp-btn" title="Fale conosco pelo WhatsApp">💬</a>
   </div>
 
-  <!-- RODAPÉ -->
+  <!-- === RODAPÉ === -->
   <footer>
-    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por
+    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por 
     <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 
-  <!-- PapaParse + script -->
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-  <script src="script.js?v=3"></script>
+  <!-- === SCRIPT PARA LER PLANILHA === -->
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
+      try {
+        const resposta = await fetch(url);
+        const texto = await resposta.text();
+        const linhas = texto.split("\n").slice(1);
+        const container = document.getElementById("lista-produtos");
+        container.innerHTML = "";
+
+        linhas.forEach(linha => {
+          const [nome, descricao, preco, imagem] = linha.split(",");
+          if (nome && descricao && preco && imagem) {
+            let imgSrc = imagem.trim();
+
+            // Corrige links do Google Drive automaticamente
+            if (imgSrc.includes("drive.google.com")) {
+              const id = imgSrc.split("/d/")[1]?.split("/")[0];
+              imgSrc = `https://drive.google.com/uc?export=view&id=${id}`;
+            }
+
+            // Corrige links locais (pasta imagens do GitHub)
+            if (!imgSrc.startsWith("http")) {
+              imgSrc = `https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/${imgSrc}`;
+            }
+
+            const produto = document.createElement("div");
+            produto.className = "produto";
+            produto.innerHTML = `
+              <img src="${imgSrc}" alt="${nome.trim()}">
+              <h3>${nome.trim()}</h3>
+              <p>${descricao.trim()}</p>
+              <div class="preco">R$ ${preco.trim()}</div>
+            `;
+            container.appendChild(produto);
+          }
+        });
+
+        if (container.innerHTML.trim() === "") {
+          container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar produtos:", erro);
+        document.getElementById("lista-produtos").innerHTML = "<p>Erro ao carregar catálogo.</p>";
+      }
+    });
+  </script>
 </body>
 </html>
