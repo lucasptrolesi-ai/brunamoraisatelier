@@ -1,145 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bruna Morais Peixoto Atelier</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --dourado: #d4af37;
-      --marrom: #3b2f2f;
-      --bege: #faf7f2;
-      --cinza: #7a6a56;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
     body {
+      margin: 0;
       font-family: 'Cormorant Garamond', serif;
-      background-color: var(--bege);
-      color: var(--marrom);
-      overflow-x: hidden;
+      background-color: #fdf9f3;
+      color: #3b2f2f;
+      scroll-behavior: smooth;
     }
 
-    /* === ANIMAÇÕES === */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* === MENU === */
     header {
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(6px);
-      position: sticky;
+      position: fixed;
       top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    nav {
-      max-width: 1100px;
-      margin: auto;
-      padding: 12px 5%;
+      left: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(5px);
+      padding: 15px 40px;
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
     }
 
-    .logo {
-      font-size: 1.4rem;
+    header h1 {
+      font-size: 1.3rem;
+      color: #3b2f2f;
+      margin: 0;
+      letter-spacing: 1px;
       font-weight: 600;
-      color: var(--marrom);
-      white-space: nowrap;
-    }
-
-    .logo span {
-      color: var(--dourado);
-    }
-
-    .menu {
-      display: flex;
-      gap: 25px;
-    }
-
-    .menu a {
-      color: var(--marrom);
-      text-decoration: none;
-      font-size: 1.1rem;
-      transition: 0.3s;
-    }
-
-    .menu a:hover {
-      color: var(--dourado);
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: var(--marrom);
-    }
-
-    @media (max-width: 768px) {
-      .menu {
-        display: none;
-        flex-direction: column;
-        background: #fff;
-        position: absolute;
-        top: 60px;
-        right: 5%;
-        width: 180px;
-        border-radius: 8px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-      }
-      .menu.active { display: flex; }
-      .menu-toggle { display: block; }
-      .logo { font-size: 1.2rem; }
     }
 
     /* === BANNER === */
     .banner {
-      max-width: 1000px;
-      margin: 60px auto 20px;
-      background: #fff;
-      border-radius: 15px;
+      width: 100%;
+      max-height: 80vh;
       overflow: hidden;
-      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+      position: relative;
+      margin-top: 70px;
     }
 
     .banner img {
       width: 100%;
       height: auto;
       display: block;
-      object-fit: contain;
-      background-color: #fff;
+      object-fit: cover;
     }
 
-    /* === FRASE === */
-    .frase {
+    .banner-texto {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.5);
+      padding: 20px 35px;
+      border-radius: 12px;
+      color: #3b2f2f;
       text-align: center;
       font-size: 1.2rem;
-      color: var(--cinza);
-      margin: 30px 0;
-      animation: fadeIn 1.5s ease-out both;
+      font-weight: 500;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     /* === CATÁLOGO === */
     .catalogo {
+      padding: 80px 10%;
       text-align: center;
-      padding: 70px 10%;
-      background-color: #fff;
-      margin-top: 40px;
-      border-top: 1px solid #f1e8dc;
     }
 
     .catalogo h2 {
-      font-size: 2rem;
-      color: var(--marrom);
-      margin-bottom: 40px;
+      font-size: 2.2rem;
+      color: #8b6f47;
+      margin-bottom: 50px;
     }
 
     .produtos {
@@ -150,121 +88,144 @@
 
     .produto {
       background-color: #fff;
-      border-radius: 12px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
       overflow: hidden;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .produto:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .produto img {
       width: 100%;
-      height: 260px;
+      height: 250px;
       object-fit: cover;
     }
 
-    .produto h3 { margin: 14px 10px 6px; font-size: 1.3rem; }
-    .produto p { margin: 0 10px 10px; font-size: 1rem; color: #555; }
-    .preco { font-weight: bold; color: var(--dourado); margin-bottom: 15px; }
+    .produto h3 {
+      margin: 15px 0 5px;
+      font-size: 1.3rem;
+      color: #4a3c2a;
+    }
+
+    .produto p {
+      color: #7c6b55;
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+
+    .preco {
+      font-weight: bold;
+      color: #b08d29;
+      margin-bottom: 15px;
+    }
 
     /* === RODAPÉ === */
     footer {
       text-align: center;
       padding: 30px 10px;
       background-color: #f8f5ef;
-      color: #6b5a44;
-      font-size: 0.95rem;
-      margin-top: 50px;
+      color: #7a6a56;
+      font-size: 1rem;
+      margin-top: 80px;
     }
+
     footer a {
-      color: var(--dourado);
+      color: #b08d29;
       text-decoration: none;
       font-weight: 600;
+    }
+
+    /* === RESPONSIVIDADE === */
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+      header h1 {
+        font-size: 1.1rem;
+      }
+      .banner-texto {
+        font-size: 1rem;
+        bottom: 25px;
+        padding: 12px 20px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <!-- MENU -->
+  <!-- === CABEÇALHO === -->
   <header>
-    <nav>
-      <div class="logo">Bruna Morais Peixoto <span>Atelier</span></div>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
-      <div class="menu" id="menu">
-        <a href="#catalogo">Catálogo</a>
-        <a href="https://wa.me/5535984595425" target="_blank">Contato</a>
-      </div>
-    </nav>
+    <h1>Bruna Morais Peixoto Atelier</h1>
   </header>
 
-  <!-- BANNER -->
+  <!-- === BANNER === -->
   <section class="banner">
-    <img src="https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/banner.jpg" alt="Bruna Morais Peixoto Atelier">
+    <img src="./imagens/banner.jpg" alt="Banner Bruna Morais Peixoto Atelier">
+    <div class="banner-texto">
+      Joias com elegância e sofisticação
+    </div>
   </section>
 
-  <!-- FRASE ABAIXO DO BANNER -->
-  <div class="frase">Joias com elegância e sofisticação</div>
-
-  <!-- CATÁLOGO -->
+  <!-- === CATÁLOGO === -->
   <section class="catalogo" id="catalogo">
     <h2>Catálogo de Joias</h2>
-    <div id="lista-produtos" class="produtos">
+    <div class="produtos" id="lista-produtos">
       <p>Carregando produtos...</p>
     </div>
   </section>
 
-  <!-- RODAPÉ -->
+  <!-- === RODAPÉ === -->
   <footer>
-    © 2025 Bruna Morais Peixoto Atelier • Desenvolvido por
+    © 2025 Bruna Morais Peixoto Atelier • Desenvolvido por 
     <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 
-  <!-- SCRIPT -->
+  <!-- === SCRIPT PARA LER PLANILHA === -->
   <script>
-    document.getElementById("menu-toggle").addEventListener("click", function() {
-      document.getElementById("menu").classList.toggle("active");
-    });
-
     document.addEventListener("DOMContentLoaded", async () => {
       const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
       try {
         const resposta = await fetch(url);
         const texto = await resposta.text();
-        const parsed = Papa.parse(texto.trim(), { header: true, skipEmptyLines: true });
-        const produtos = parsed.data;
+        const linhas = texto.split("\n").slice(1);
         const container = document.getElementById("lista-produtos");
         container.innerHTML = "";
 
-        produtos.forEach((item) => {
-          const nome = item["Nome"] || "";
-          const desc = item["Descrição"] || "";
-          const preco = item["Preço"] || "";
-          let imagem = item["Imagem"] || "";
+        linhas.forEach(linha => {
+          const [nome, descricao, preco, imagem] = linha.split(",");
+          if (nome && descricao && preco && imagem) {
+            let imgSrc = imagem.trim();
 
-          if (imagem.includes("drive.google.com")) {
-            const id = imagem.split("/d/")[1]?.split("/")[0];
-            imagem = `https://drive.google.com/uc?export=view&id=${id}`;
-          } else if (!imagem.startsWith("http")) {
-            imagem = `https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/${imagem}`;
-          }
+            if (imgSrc.includes("drive.google.com")) {
+              const id = imgSrc.split("/d/")[1]?.split("/")[0];
+              imgSrc = `https://drive.google.com/uc?export=view&id=${id}`;
+            }
 
-          if (nome && desc && preco) {
+            if (!imgSrc.startsWith("http")) {
+              imgSrc = `https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/${imgSrc}`;
+            }
+
             const produto = document.createElement("div");
-            produto.classList.add("produto");
+            produto.className = "produto";
             produto.innerHTML = `
-              <img src="${imagem}" alt="${nome}">
-              <h3>${nome}</h3>
-              <p>${desc}</p>
-              <div class="preco">R$ ${preco}</div>
+              <img src="${imgSrc}" alt="${nome.trim()}">
+              <h3>${nome.trim()}</h3>
+              <p>${descricao.trim()}</p>
+              <div class="preco">R$ ${preco.trim()}</div>
             `;
             container.appendChild(produto);
           }
         });
-      } catch (error) {
+
+        if (container.innerHTML.trim() === "") {
+          container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar produtos:", erro);
         document.getElementById("lista-produtos").innerHTML = "<p>Erro ao carregar catálogo.</p>";
       }
     });
