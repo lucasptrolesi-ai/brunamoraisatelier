@@ -30,60 +30,57 @@
 
     /* ===== BANNER ===== */
     .banner {
-      position: relative;
-      width: 100%;
-      height: 65vh;
-      overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      margin: 40px auto;
+      max-width: 1100px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      flex-wrap: wrap;
     }
 
     .banner img {
-      width: 100%;
-      height: 100%;
+      width: 50%;
+      min-width: 300px;
+      height: 320px;
       object-fit: cover;
-      filter: brightness(85%);
-      position: absolute;
-      top: 0;
-      left: 0;
+      filter: brightness(90%);
     }
 
     .banner-texto {
-      position: relative;
+      flex: 1;
       text-align: center;
-      color: white;
-      z-index: 2;
-      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
-      padding: 0 20px;
-      animation: fadeIn 1.8s ease;
+      padding: 30px;
     }
 
     .banner-texto h1 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       color: var(--dourado);
       margin-bottom: 10px;
     }
 
     .banner-texto p {
       font-size: 1.2rem;
+      color: var(--marrom);
+      margin-bottom: 20px;
     }
 
     .btn-catalogo {
-      display: inline-block;
       background-color: var(--dourado);
-      color: #fff;
-      padding: 10px 22px;
+      color: white;
+      padding: 10px 25px;
       border-radius: 25px;
-      margin-top: 20px;
       text-decoration: none;
       font-size: 1rem;
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .btn-catalogo:hover {
       background-color: var(--dourado-escuro);
-      transform: translateY(-2px);
+      transform: scale(1.05);
     }
 
     /* ===== CATÁLOGO ===== */
@@ -149,6 +146,7 @@
       background-color: #f8f5ef;
       color: #6b5a44;
       font-size: 0.95rem;
+      margin-top: 40px;
     }
 
     footer a {
@@ -158,57 +156,48 @@
     }
 
     /* ===== RESPONSIVIDADE ===== */
-    @media (max-width: 1024px) {
-      .banner-texto h1 {
-        font-size: 2.2rem;
-      }
-      .banner-texto p {
-        font-size: 1.1rem;
-      }
-    }
-
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .banner {
-        height: 55vh;
+        flex-direction: column;
+        max-width: 95%;
       }
+
+      .banner img {
+        width: 100%;
+        height: 240px;
+      }
+
+      .banner-texto {
+        padding: 20px;
+      }
+
       .banner-texto h1 {
-        font-size: 2rem;
+        font-size: 1.8rem;
       }
+
       .banner-texto p {
         font-size: 1rem;
-      }
-      .produto img {
-        height: 210px;
       }
     }
 
     @media (max-width: 480px) {
-      .banner {
-        height: 45vh;
-      }
-      .banner-texto h1 {
-        font-size: 1.6rem;
-      }
-      .banner-texto p {
-        font-size: 0.9rem;
-      }
       .catalogo {
         padding: 40px 6%;
       }
-      .produto img {
-        height: 190px;
-      }
-    }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      .produto img {
+        height: 200px;
+      }
+
+      .produto h3 {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- BANNER -->
+  <!-- BANNER REDUZIDO -->
   <section class="banner">
     <img src="https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/banner.jpg" alt="Banner Bruna Morais Peixoto Ateliê">
     <div class="banner-texto">
