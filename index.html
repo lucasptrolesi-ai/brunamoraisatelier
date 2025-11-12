@@ -217,18 +217,20 @@
     </div>
   </section>
 
-  <!-- RODAPÉ -->
+  <!-- RODAPÉ ÚNICO -->
   <footer>
     © 2025 Bruna Morais Peixoto Atelier • Desenvolvido por
     <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT ÚNICO -->
   <script>
+    // Menu mobile
     document.getElementById("menu-toggle").addEventListener("click", function() {
       document.getElementById("menu").classList.toggle("active");
     });
 
+    // Catálogo
     document.addEventListener("DOMContentLoaded", async () => {
       const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
       try {
@@ -253,15 +255,15 @@
           }
 
           if (nome && desc && preco) {
-            const produto = document.createElement("div");
-            produto.classList.add("produto");
-            produto.innerHTML = `
+            const card = document.createElement("div");
+            card.className = "produto";
+            card.innerHTML = `
               <img src="${imagem}" alt="${nome}">
               <h3>${nome}</h3>
               <p>${desc}</p>
               <div class="preco">R$ ${preco}</div>
             `;
-            container.appendChild(produto);
+            container.appendChild(card);
           }
         });
       } catch (error) {
