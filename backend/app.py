@@ -10,17 +10,39 @@ from dotenv import load_dotenv
 # ====== CONFIGURAÇÕES INICIAIS ======
 st.set_page_config(page_title="Painel Administrativo - Bruna Morais Peixoto Atelier", page_icon="💍", layout="wide")
 
-# Estilo da marca (responsivo)
+# ====== ESTILO PERSONALIZADO ======
 st.markdown("""
 <style>
-html, body, [class*="css"] { font-family: 'Cormorant Garamond', serif !important; background:#fdf9f3; color:#4b3832; }
-h1,h2,h3 { color:#d4af37; font-weight:600; text-align:center; }
-div.stButton > button { background:#d4af37; color:white; border-radius:24px; padding:10px 18px; font-weight:600; }
-div.stButton > button:hover { background:#b8962b; transform:scale(1.02); }
-.stTextInput input, .stTextArea textarea { background:#fffaf0; border:1px solid #ccbfa1; border-radius:10px; }
-@media (max-width: 768px){
-  h1{font-size:1.6rem} h2{font-size:1.2rem}
-  div.stButton > button { width:100% }
+html, body, [class*="css"] {
+    font-family: 'Cormorant Garamond', serif !important;
+    background: #fdf9f3;
+    color: #4b3832;
+}
+h1, h2, h3 {
+    color: #d4af37;
+    font-weight: 600;
+    text-align: center;
+}
+div.stButton > button {
+    background: #d4af37;
+    color: white;
+    border-radius: 24px;
+    padding: 10px 18px;
+    font-weight: 600;
+}
+div.stButton > button:hover {
+    background: #b8962b;
+    transform: scale(1.02);
+}
+.stTextInput input, .stTextArea textarea {
+    background: #fffaf0;
+    border: 1px solid #ccbfa1;
+    border-radius: 10px;
+}
+@media (max-width: 768px) {
+    h1 { font-size: 1.6rem; }
+    h2 { font-size: 1.2rem; }
+    div.stButton > button { width: 100%; }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -37,16 +59,18 @@ CSV_PATH = "catalogo.csv"
 IMG_DIR = "imagens"
 RAW_BASE = f"https://raw.githubusercontent.com/{REPO_OWNER}/{REPO_NAME}/{BRANCH}"
 
-# ====== TOKEN ======
+# ====== TOKEN DO GITHUB ======
 load_dotenv()
 default_token = os.getenv("GITHUB_TOKEN", "")
 token = st.text_input("🔑 Token do GitHub (repo access)", type="password", value=default_token)
+
 if not token:
     st.warning("Informe seu token do GitHub acima para publicar no repositório.")
 headers = {"Authorization": f"token {token}", "Accept": "application/vnd.github+json"}
 
 # ====== FUNÇÕES AUXILIARES ======
-def gh_url(path): return f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path}"
+def gh_url(path): 
+    return f"https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/contents/{path}"
 
 def get_sha(path):
     r = requests.get(gh_url(path), headers=headers)
@@ -59,7 +83,8 @@ def upload_to_repo(path, content_bytes, message):
         "content": base64.b64encode(content_bytes).decode(),
         "branch": BRANCH
     }
-    if sha: payload["sha"] = sha
+    if sha:
+        payload["sha"] = sha
     r = requests.put(gh_url(path), headers=headers, json=payload)
     return r.status_code in [200, 201], r.text
 
@@ -108,6 +133,7 @@ if st.button("💾 Salvar Produto"):
     elif not (nome and descricao and preco and (img_file or img_url)):
         st.warning("Preencha todos os campos e adicione uma imagem.")
     else:
+        # --- Upload da Imagem ---
         if img_file:
             ext = os.path.splitext(img_file.name)[1]
             filename = f"{int(time.time())}_{nome.replace(' ', '_')}{ext}"
@@ -120,18 +146,20 @@ if st.button("💾 Salvar Produto"):
         else:
             img_final = normalize_drive_link(img_url)
 
+        # --- Atualizar CSV ---
         new_row = pd.DataFrame([[nome, descricao, preco, img_final]], columns=df.columns)
         df_new = pd.concat([df, new_row], ignore_index=True)
         ok_csv, msg_csv = upload_to_repo(CSV_PATH, df_new.to_csv(index=False).encode(), f"📦 Novo produto: {nome}")
 
         if ok_csv:
             st.success("✅ Produto publicado com sucesso!")
-            st.balloons()
+            st.info("Atualize a página (Ctrl + R) para ver o novo produto no catálogo.")
         else:
             st.error("Erro ao atualizar catálogo.")
 
 st.divider()
 st.subheader("❌ Remover Produto")
+
 if df.empty:
     st.info("Nenhum produto para remover.")
 else:
