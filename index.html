@@ -13,13 +13,12 @@
       --dourado-escuro: #b8962b;
       --marrom: #3b2f2f;
       --bege: #fdf9f3;
-      --fundo: #ffffff;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
@@ -33,7 +32,7 @@
     .banner {
       position: relative;
       width: 100%;
-      height: 100vh;
+      height: 65vh;
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -44,98 +43,95 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: brightness(80%);
+      filter: brightness(85%);
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 0;
     }
 
     .banner-texto {
       position: relative;
-      z-index: 2;
       text-align: center;
       color: white;
-      text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      z-index: 2;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
       padding: 0 20px;
-      animation: fadeIn 2s ease;
+      animation: fadeIn 1.8s ease;
     }
 
     .banner-texto h1 {
-      font-size: 3rem;
+      font-size: 2.4rem;
       color: var(--dourado);
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
     .banner-texto p {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
 
     .btn-catalogo {
       display: inline-block;
       background-color: var(--dourado);
       color: #fff;
-      padding: 12px 25px;
-      border-radius: 30px;
-      margin-top: 25px;
+      padding: 10px 22px;
+      border-radius: 25px;
+      margin-top: 20px;
       text-decoration: none;
-      font-size: 1.1rem;
+      font-size: 1rem;
       transition: all 0.3s ease;
     }
 
     .btn-catalogo:hover {
       background-color: var(--dourado-escuro);
-      transform: scale(1.05);
+      transform: translateY(-2px);
     }
 
     /* ===== CATÁLOGO ===== */
     .catalogo {
       text-align: center;
-      padding: 70px 8%;
-      background-color: var(--fundo);
+      padding: 60px 10%;
+      background-color: #fff;
     }
 
     .catalogo h2 {
-      font-size: 2.3rem;
+      font-size: 2rem;
       color: var(--marrom);
       margin-bottom: 40px;
     }
 
     .produtos {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 25px;
-      justify-items: center;
     }
 
     .produto {
       background-color: #fff;
       border-radius: 12px;
       overflow: hidden;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
-      width: 100%;
-      max-width: 320px;
     }
 
     .produto:hover {
       transform: translateY(-6px);
-      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.12);
     }
 
     .produto img {
       width: 100%;
-      height: 260px;
+      height: 240px;
       object-fit: cover;
+      background-color: #f8f8f8;
     }
 
     .produto h3 {
-      margin: 15px 10px 5px;
-      font-size: 1.3rem;
+      margin: 14px 10px 6px;
+      font-size: 1.2rem;
     }
 
     .produto p {
-      margin: 0 10px 8px;
+      margin: 0 10px 10px;
       font-size: 1rem;
       color: #555;
     }
@@ -146,53 +142,13 @@
       margin-bottom: 15px;
     }
 
-    /* ===== WHATSAPP ===== */
-    .whatsapp-container {
-      position: fixed;
-      bottom: 25px;
-      right: 25px;
-      z-index: 1000;
-      text-align: center;
-    }
-
-    .whatsapp-msg {
-      background-color: #fff8e1;
-      color: var(--marrom);
-      padding: 6px 12px;
-      border-radius: 10px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .whatsapp-btn {
-      background-color: var(--dourado);
-      color: white;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-      text-decoration: none;
-      transition: 0.3s;
-    }
-
-    .whatsapp-btn:hover {
-      background-color: var(--dourado-escuro);
-      transform: scale(1.1);
-    }
-
     /* ===== RODAPÉ ===== */
     footer {
       text-align: center;
-      padding: 30px 15px;
-      background-color: #f7f4ef;
+      padding: 25px 10px;
+      background-color: #f8f5ef;
       color: #6b5a44;
-      font-size: 1rem;
+      font-size: 0.95rem;
     }
 
     footer a {
@@ -204,7 +160,7 @@
     /* ===== RESPONSIVIDADE ===== */
     @media (max-width: 1024px) {
       .banner-texto h1 {
-        font-size: 2.4rem;
+        font-size: 2.2rem;
       }
       .banner-texto p {
         font-size: 1.1rem;
@@ -213,32 +169,34 @@
 
     @media (max-width: 768px) {
       .banner {
-        height: 70vh;
+        height: 55vh;
       }
       .banner-texto h1 {
         font-size: 2rem;
       }
-      .btn-catalogo {
-        padding: 10px 20px;
+      .banner-texto p {
         font-size: 1rem;
       }
       .produto img {
-        height: 220px;
+        height: 210px;
       }
     }
 
     @media (max-width: 480px) {
       .banner {
-        height: 60vh;
+        height: 45vh;
       }
       .banner-texto h1 {
-        font-size: 1.7rem;
+        font-size: 1.6rem;
+      }
+      .banner-texto p {
+        font-size: 0.9rem;
       }
       .catalogo {
-        padding: 50px 5%;
+        padding: 40px 6%;
       }
-      .produto {
-        max-width: 100%;
+      .produto img {
+        height: 190px;
       }
     }
 
@@ -249,6 +207,7 @@
   </style>
 </head>
 <body>
+
   <!-- BANNER -->
   <section class="banner">
     <img src="https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/banner.jpg" alt="Banner Bruna Morais Peixoto Ateliê">
@@ -267,18 +226,13 @@
     </div>
   </section>
 
-  <!-- WHATSAPP -->
-  <div class="whatsapp-container">
-    <div class="whatsapp-msg">💛 Fale comigo</div>
-    <a href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê." target="_blank" class="whatsapp-btn" title="Fale conosco pelo WhatsApp">💬</a>
-  </div>
-
   <!-- RODAPÉ -->
   <footer>
     © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por
     <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 
+  <!-- SCRIPT -->
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
       const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
