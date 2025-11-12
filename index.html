@@ -15,11 +15,7 @@
       --cinza: #7a6a56;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'Cormorant Garamond', serif;
@@ -28,7 +24,13 @@
       overflow-x: hidden;
     }
 
-    /* === MENU SUPERIOR === */
+    /* === ANIMAÇÕES === */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* === MENU === */
     header {
       background: rgba(255, 255, 255, 0.85);
       backdrop-filter: blur(6px);
@@ -48,9 +50,10 @@
     }
 
     .logo {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 600;
       color: var(--marrom);
+      white-space: nowrap;
     }
 
     .logo span {
@@ -94,6 +97,7 @@
       }
       .menu.active { display: flex; }
       .menu-toggle { display: block; }
+      .logo { font-size: 1.2rem; }
     }
 
     /* === BANNER === */
@@ -114,20 +118,13 @@
       background-color: #fff;
     }
 
-    .titulo-site {
+    /* === FRASE === */
+    .frase {
       text-align: center;
-      margin: 35px 0 10px;
-    }
-
-    .titulo-site h1 {
-      font-size: 2rem;
-      color: var(--marrom);
-    }
-
-    .titulo-site p {
+      font-size: 1.2rem;
       color: var(--cinza);
-      font-size: 1.15rem;
-      margin-top: 5px;
+      margin: 30px 0;
+      animation: fadeIn 1.5s ease-out both;
     }
 
     /* === CATÁLOGO === */
@@ -170,22 +167,9 @@
       object-fit: cover;
     }
 
-    .produto h3 {
-      margin: 14px 10px 6px;
-      font-size: 1.3rem;
-    }
-
-    .produto p {
-      margin: 0 10px 10px;
-      font-size: 1rem;
-      color: #555;
-    }
-
-    .preco {
-      font-weight: bold;
-      color: var(--dourado);
-      margin-bottom: 15px;
-    }
+    .produto h3 { margin: 14px 10px 6px; font-size: 1.3rem; }
+    .produto p { margin: 0 10px 10px; font-size: 1rem; color: #555; }
+    .preco { font-weight: bold; color: var(--dourado); margin-bottom: 15px; }
 
     /* === RODAPÉ === */
     footer {
@@ -196,7 +180,6 @@
       font-size: 0.95rem;
       margin-top: 50px;
     }
-
     footer a {
       color: var(--dourado);
       text-decoration: none;
@@ -206,11 +189,10 @@
 </head>
 
 <body>
-
   <!-- MENU -->
   <header>
     <nav>
-      <div class="logo">Bruna <span>Morais</span> Atelier</div>
+      <div class="logo">Bruna Morais Peixoto <span>Atelier</span></div>
       <div class="menu-toggle" id="menu-toggle">☰</div>
       <div class="menu" id="menu">
         <a href="#catalogo">Catálogo</a>
@@ -224,11 +206,8 @@
     <img src="https://raw.githubusercontent.com/lucasptrolesi-ai/brunamoraisatelier/main/imagens/banner.jpg" alt="Bruna Morais Peixoto Atelier">
   </section>
 
-  <!-- TEXTO ABAIXO DO BANNER -->
-  <div class="titulo-site">
-    <h1>Bruna Morais Peixoto Atelier</h1>
-    <p>Joias com elegância e sofisticação</p>
-  </div>
+  <!-- FRASE ABAIXO DO BANNER -->
+  <div class="frase">Joias com elegância e sofisticação</div>
 
   <!-- CATÁLOGO -->
   <section class="catalogo" id="catalogo">
