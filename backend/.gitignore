@@ -1,0 +1,24 @@
+# --- Protege arquivos sensíveis ---
+backend/.env
+
+# --- Ignora cache e dados temporários ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+
+# --- Streamlit cache ---
+.streamlit/
+.cache/
+backend/data/
+
+# --- Arquivos de sistema ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Arquivos ZIP e temporários ---
+*.zip
+*.tmp
+*.bak
