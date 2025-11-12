@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const url =
-    "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
+  // 🔗 Planilha publicada (backend oficial)
+  const url = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQO0ciGyUyPSAuWnR5L39zInL8lqS2BLZPVquCNqWnYZYUF2wSzm6X6CQ7hf4zPKQ/pub?output=csv";
 
   try {
     const resposta = await fetch(url);
@@ -9,18 +9,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("lista-produtos");
     container.innerHTML = "";
 
+    // Ignora cabeçalho
     for (let i = 1; i < linhas.length; i++) {
-      const partes = linhas[i].split(",");
-
+      const partes = linhas[i].split(",").map(x => x.trim());
       if (partes.length >= 4) {
-        let [nome, descricao, preco, imagem] = partes.map(x => x.trim());
+        let [nome, descricao, preco, imagem] = partes;
 
-        // 🪄 Converte link do Google Drive automaticamente
+        // 🪄 Corrige automaticamente link do Google Drive
         if (imagem.includes("drive.google.com/file/d/")) {
           const id = imagem.split("/d/")[1]?.split("/")[0];
           imagem = `https://drive.google.com/uc?export=view&id=${id}`;
         }
 
+        // Garante que todos os campos estejam preenchidos
         if (nome && descricao && preco && imagem) {
           const produto = document.createElement("div");
           produto.className = "produto";
@@ -35,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
+    // Caso a planilha esteja vazia
     if (container.innerHTML.trim() === "") {
       container.innerHTML = "<p>Nenhum produto cadastrado no momento.</p>";
     }
