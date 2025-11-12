@@ -1,190 +1,80 @@
-body {
-  margin: 0;
-  font-family: 'Cormorant Garamond', serif;
-  background-color: #fdf9f3;
-  color: #3b2f2f;
-  scroll-behavior: smooth;
+:root{
+  --dourado:#d4af37;
+  --dourado-esc:#b8962b;
+  --marrom:#3b2f2f;
+  --creme:#fdf9f3;
+  --cartao:#ffffff;
+  --borda:#efe6da;
 }
 
-/* === ANIMAÇÕES === */
-@keyframes fadeInUp {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:'Cormorant Garamond', serif;
+  background:var(--creme);
+  color:var(--marrom);
+  line-height:1.4;
 }
 
-@keyframes fadeIn {
-  0% { opacity: 0; }
-  100% { opacity: 1; }
+/* Banner */
+.banner{position:relative;width:100%;height:72vh;min-height:420px;overflow:hidden}
+.banner-img{width:100%;height:100%;object-fit:cover;filter:brightness(85%)}
+.banner-texto{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  background:rgba(255,255,255,.35);backdrop-filter:blur(6px);
+  padding:24px 32px;border-radius:16px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.18)
 }
+.banner-texto h1{margin:0 0 8px 0;color:var(--dourado);font-size:clamp(28px,5vw,44px)}
+.banner-texto p{margin:0;color:var(--marrom);font-size:clamp(16px,2.5vw,20px)}
+.btn-catalogo{
+  display:inline-block;margin-top:16px;padding:10px 20px;border-radius:28px;
+  background:var(--dourado);color:#fff;text-decoration:none;transition:.25s;font-weight:600
+}
+.btn-catalogo:hover{background:var(--dourado-esc);transform:translateY(-1px)}
 
-/* === BANNER PRINCIPAL === */
-.banner {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  overflow: hidden;
-}
+/* Catálogo */
+.catalogo{padding:56px 6%}
+.catalogo h2{color:var(--dourado);text-align:center;font-size:clamp(24px,4vw,34px);margin:0 0 24px}
 
-.banner-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(85%);
+.filtros{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:0 auto 18px;max-width:980px
 }
+.filtros input, .filtros select, .btn{
+  border:1px solid var(--borda);border-radius:10px;background:#fff;color:#000;
+  padding:10px 12px;font-size:16px
+}
+.btn{background:var(--dourado);color:#fff;border:none;cursor:pointer}
+.btn:hover{background:var(--dourado-esc)}
 
-.banner-texto {
-  position: absolute;
-  bottom: 90px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(6px);
-  padding: 25px 40px;
-  border-radius: 15px;
-  text-align: center;
-  color: #3b2f2f;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-  animation: fadeInUp 1.6s ease-out;
+.produtos{
+  display:grid;gap:22px;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
 }
+.produto{
+  background:var(--cartao);border:1px solid var(--borda);border-radius:14px;overflow:hidden;
+  box-shadow:0 4px 14px rgba(0,0,0,.06);transition:.25s
+}
+.produto:hover{transform:translateY(-4px);box-shadow:0 10px 28px rgba(0,0,0,.1)}
+.produto img{width:100%;height:230px;object-fit:cover;display:block}
+.produto h3{margin:10px 12px 0;color:#4a3c2a;font-size:20px}
+.produto p{margin:6px 12px 10px;color:#766a5b;font-size:16px}
+.preco{margin:0 12px 14px;color:var(--dourado);font-weight:700;font-size:18px}
 
-.banner-texto h1 {
-  font-size: 2.8rem;
-  margin-bottom: 10px;
-  color: #d4af37;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-}
+.aviso-csv{margin-top:8px;text-align:center;color:#8a7a66;font-size:14px}
 
-.banner-texto p {
-  font-size: 1.3rem;
-  color: #3b2f2f;
-  margin: 0;
+/* WhatsApp fixo */
+.whatsapp-container{position:fixed;bottom:22px;right:22px;z-index:999;text-align:center}
+.whatsapp-msg{
+  background:#fdf5da;color:#7a5d15;padding:6px 10px;border-radius:10px;font-weight:600;
+  box-shadow:0 2px 10px rgba(0,0,0,.1);margin-bottom:6px
 }
+.whatsapp-btn{
+  background:var(--dourado);color:#fff;width:58px;height:58px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:26px;
+  box-shadow:0 4px 15px rgba(0,0,0,.28);text-decoration:none;transition:.25s
+}
+.whatsapp-btn:hover{background:var(--dourado-esc);transform:scale(1.06)}
 
-.btn-catalogo {
-  margin-top: 25px;
-  display: inline-block;
-  background-color: #d4af37;
-  color: white;
-  padding: 12px 25px;
-  border-radius: 30px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: 0.3s;
-}
-
-.btn-catalogo:hover {
-  background-color: #b8962b;
-  transform: scale(1.05);
-}
-
-/* === CATÁLOGO === */
-.catalogo {
-  padding: 80px 10%;
-  text-align: center;
-}
-
-.catalogo h2 {
-  font-size: 2.2rem;
-  color: #8b6f47;
-  margin-bottom: 50px;
-}
-
-.produtos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-}
-
-.produto {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-  overflow: hidden;
-  transition: 0.3s;
-}
-
-.produto:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-}
-
-.produto img {
-  width: 100%;
-  height: 250px;
-  object-fit: cover;
-}
-
-.produto h3 {
-  margin: 15px 0 5px;
-  font-size: 1.3rem;
-  color: #4a3c2a;
-}
-
-.produto p {
-  color: #7c6b55;
-  font-size: 1rem;
-  margin-bottom: 10px;
-}
-
-.preco {
-  font-weight: bold;
-  color: #b08d29;
-  margin-bottom: 15px;
-}
-
-/* === BOTÃO WHATSAPP FIXO === */
-.whatsapp-container {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  z-index: 999;
-  text-align: center;
-}
-
-.whatsapp-msg {
-  background-color: #fdf5da;
-  color: #7a5d15;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  animation: fadeInUp 1.8s ease;
-}
-
-.whatsapp-btn {
-  background-color: #d4af37;
-  color: white;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 28px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  text-decoration: none;
-  transition: 0.3s ease-in-out;
-  animation: fadeIn 2s ease-in;
-}
-
-.whatsapp-btn:hover {
-  background-color: #b8962b;
-  transform: scale(1.1);
-}
-
-/* === RODAPÉ === */
-footer {
-  text-align: center;
-  padding: 30px 10px;
-  background-color: #f8f5ef;
-  color: #7a6a56;
-  font-size: 1rem;
-}
-
-footer a {
-  color: #b08d29;
-  text-decoration: none;
-  font-weight: 600;
-}
+/* Rodapé */
+footer{background:#f8f5ef;text-align:center;padding:26px 10px;color:#7a6a56}
+footer a{color:var(--dourado);text-decoration:none;font-weight:600}

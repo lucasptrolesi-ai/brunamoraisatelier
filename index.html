@@ -1,48 +1,70 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bruna Morais Peixoto Ateliê</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
 
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=3" />
+</head>
 <body>
-  <!-- === BANNER PRINCIPAL === -->
-  <section class="banner">
-    <img src="imagens/banner.jpg" alt="Banner Bruna Morais Ateliê" class="banner-img">
+
+  <!-- HERO / BANNER -->
+  <header class="banner">
+    <img src="imagens/banner.jpg" alt="Bruna Morais Peixoto Ateliê" class="banner-img">
     <div class="banner-texto">
       <h1>Bruna Morais Peixoto Ateliê</h1>
       <p>Joias com elegância e sofisticação</p>
       <a href="#catalogo" class="btn-catalogo">Ver Catálogo ↓</a>
     </div>
-  </section>
+  </header>
 
-  <!-- === CATÁLOGO === -->
-  <section class="catalogo" id="catalogo">
+  <!-- CATÁLOGO -->
+  <main class="catalogo" id="catalogo">
     <h2>Catálogo de Joias</h2>
-    <div class="produtos" id="lista-produtos">
-      <p>Carregando produtos...</p>
-    </div>
-  </section>
 
-  <!-- === BOTÃO WHATSAPP FIXO === -->
+    <!-- filtros opcionais -->
+    <div class="filtros">
+      <input id="busca" type="search" placeholder="Buscar por nome ou descrição…" />
+      <select id="ordem">
+        <option value="">Ordenar</option>
+        <option value="nome-asc">Nome (A–Z)</option>
+        <option value="nome-desc">Nome (Z–A)</option>
+        <option value="preco-asc">Preço (menor → maior)</option>
+        <option value="preco-desc">Preço (maior → menor)</option>
+      </select>
+      <button id="btn-recarregar" class="btn">Recarregar catálogo</button>
+    </div>
+
+    <div class="produtos" id="lista-produtos">
+      <p>Carregando produtos…</p>
+    </div>
+
+    <p class="aviso-csv">
+      * Este catálogo é atualizado automaticamente pela planilha.
+    </p>
+  </main>
+
+  <!-- WHATSAPP FIXO -->
   <div class="whatsapp-container">
     <div class="whatsapp-msg">💛 Fale comigo</div>
-    <a href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê."
-       target="_blank" class="whatsapp-btn" title="Fale conosco pelo WhatsApp">💬</a>
+    <a
+      href="https://wa.me/5535984595425?text=Olá%20Bruna!%20Gostaria%20de%20saber%20mais%20sobre%20as%20joias%20do%20seu%20ateliê."
+      target="_blank"
+      class="whatsapp-btn"
+      title="Fale conosco pelo WhatsApp"
+    >💬</a>
   </div>
 
-  <!-- === RODAPÉ === -->
+  <!-- RODAPÉ -->
   <footer>
-    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por 
+    © 2025 Bruna Morais Peixoto Ateliê • Desenvolvido por
     <a href="https://github.com/lucasptrolesi-ai" target="_blank">Lucas Peixoto</a>
   </footer>
 
-  <!-- === SCRIPT DE INTEGRAÇÃO COM GOOGLE SHEETS === -->
-  <script src="script.js?v=3.0"></script>
-
-
+  <!-- PapaParse + script -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
