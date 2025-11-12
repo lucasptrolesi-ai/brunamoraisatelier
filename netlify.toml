@@ -1,0 +1,28 @@
+# ================================
+# 🚀 Configuração automática Netlify
+# Projeto: Bruna Morais Peixoto Atelier
+# Desenvolvido por: Lucas Peixoto
+# ================================
+
+[build]
+  publish = "./"
+  command = ""
+
+# Ativa HTTPS e CORS para segurança e compatibilidade
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+
+# Redireciona erros 404 para o index.html (mantém SPA funcional)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Cache para performance (opcional)
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
