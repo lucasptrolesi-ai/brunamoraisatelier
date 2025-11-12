@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("lista-produtos");
     container.innerHTML = "";
 
-    // Ignora cabeçalho
+    // Ignora o cabeçalho (linha 1)
     for (let i = 1; i < linhas.length; i++) {
       const partes = linhas[i].split(",").map(x => x.trim());
       if (partes.length >= 4) {
